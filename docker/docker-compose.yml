@@ -1,0 +1,37 @@
+services:
+  kiro:
+    build: .
+    container_name: kiro-ralph
+    stdin_open: true
+    tty: true
+    volumes:
+      # Mount project directory
+      - ${PROJECT_PATH:-.}:/workspace
+      # Persist Kiro auth credentials (all possible locations)
+      - kiro-config:/root/.kiro
+      - kiro-cache:/root/.cache
+      - kiro-local:/root/.local/share
+      # MCP config for headless Chrome
+      - ./mcp.json:/root/.kiro/settings/mcp.json:ro
+    working_dir: /workspace
+    # Port range for OAuth callback (social login)
+    ports:
+      - "49152-49160:49152-49160"
+    environment:
+      - TERM=xterm-256color
+      # Chrome settings for container
+      - CHROME_PATH=/usr/bin/chromium
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+      # For chrome-devtools-mcp
+      - CHROME_EXECUTABLE_PATH=/usr/bin/chromium
+    # Required for Chrome to run in container
+    security_opt:
+      - seccomp=unconfined
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  kiro-config:
+  kiro-cache:
+  kiro-local:
