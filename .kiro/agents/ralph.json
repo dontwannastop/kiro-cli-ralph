@@ -1,0 +1,20 @@
+{
+  "name": "ralph",
+  "description": "Ralph autonomous coding agent with full permissions",
+  "prompt": "file://./prompt.md",
+  "tools": ["@builtin", "@chrome-devtools"],
+  "allowedTools": ["fs_read", "fs_write", "execute_bash", "code", "grep", "glob", "@chrome-devtools/*"],
+  "toolsSettings": {
+    "fs_write": {
+      "allowedPaths": ["**/*"]
+    },
+    "fs_read": {
+      "allowedPaths": ["**/*"]
+    },
+    "execute_bash": {
+      "autoAllowReadonly": true,
+      "allowedCommands": ["npm .*", "yarn .*", "pnpm .*", "cargo .*", "make .*", "jq .*", "open .*", "cat .*", "ls .*"],
+      "deniedCommands": ["git .*"]
+    }
+  }
+}
