@@ -170,6 +170,19 @@ UI stories include "Verify in browser using chrome-devtools MCP" in acceptance c
 
 ---
 
+## 🧠 Code Intelligence (Optional)
+
+For better code navigation and refactoring, enable LSP support:
+
+```
+kiro-cli chat
+> /code init
+```
+
+This generates `.kiro/settings/lsp.json` (gitignored). Each developer runs this locally.
+
+---
+
 ## 📚 Credits & References
 
 - [snarktank/ralph](https://github.com/snarktank/ralph) - Original Ralph implementation
