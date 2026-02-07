@@ -2,19 +2,14 @@
   "name": "fe-engineer",
   "description": "Senior Front-End Engineer for UI implementation and browser verification",
   "prompt": "file://./fe-prompt.md",
-  "tools": ["@builtin", "@chrome-devtools"],
-  "allowedTools": ["fs_read", "fs_write", "execute_bash", "code", "grep", "glob", "@chrome-devtools/*"],
+  "tools": ["read", "write", "code", "grep", "glob", "@chrome-devtools"],
+  "allowedTools": ["fs_read", "fs_write", "code", "grep", "glob", "@chrome-devtools"],
   "toolsSettings": {
     "fs_write": {
       "allowedPaths": ["**/*"]
     },
     "fs_read": {
       "allowedPaths": ["**/*"]
-    },
-    "execute_bash": {
-      "autoAllowReadonly": true,
-      "allowedCommands": ["npm .*", "yarn .*", "pnpm .*", "npx .*", "cat .*", "ls .*"],
-      "deniedCommands": ["git .*"]
     }
   }
 }
