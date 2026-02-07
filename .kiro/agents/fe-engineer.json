@@ -1,15 +1,20 @@
 {
   "name": "fe-engineer",
-  "description": "Senior Front-End Engineer for UI implementation and browser verification",
+  "description": "Senior Front-End Engineer for UI verification via Playwright tests",
   "prompt": "file://./fe-prompt.md",
-  "tools": ["read", "write", "code", "grep", "glob", "@chrome-devtools"],
-  "allowedTools": ["fs_read", "fs_write", "code", "grep", "glob", "@chrome-devtools"],
+  "tools": ["read", "write", "shell", "code", "grep", "glob"],
+  "allowedTools": ["fs_read", "fs_write", "execute_bash", "code", "grep", "glob"],
   "toolsSettings": {
     "fs_write": {
       "allowedPaths": ["**/*"]
     },
     "fs_read": {
       "allowedPaths": ["**/*"]
+    },
+    "execute_bash": {
+      "autoAllowReadonly": true,
+      "allowedCommands": ["npx playwright.*", "cat .*", "ls .*"],
+      "deniedCommands": ["npm run dev.*", "npm start.*", "npx vite.*", "node .*server.*"]
     }
   }
 }

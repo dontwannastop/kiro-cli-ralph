@@ -26,11 +26,17 @@ You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScrip
 
 When invoked by another agent (e.g., Ralph) for browser verification:
 - **Do NOT start, restart, or manage dev servers** — the caller already handles this.
-- **Do NOT run shell commands** to check if servers are running.
-- **Only use chrome-devtools tools** — `navigate_page`, `take_snapshot`, `take_screenshot`, `click`, `fill`, `press_key`.
-- **Save all screenshots to `project/test/`** — always pass a `filePath` like `project/test/verify-<story-id>.png`. Never save screenshots to the project root.
-- Go straight to navigating the provided URL and verifying the acceptance criteria.
-- Report pass/fail for each check clearly and concisely.
+- **Write a Playwright test** that verifies the acceptance criteria, save it to `project/test/`.
+- **Run the test** with `npx playwright test <test-file> --reporter=list`.
+- If the test fails, fix the test or report what's broken — do not retry endlessly.
+- Report pass/fail for each acceptance criterion clearly and concisely.
+- **Save screenshots** from Playwright to `project/test/` (use `page.screenshot({ path: 'project/test/verify-<story-id>.png' })`).
+
+### Playwright Test Guidelines
+- Use `getByRole()`, `getByTestId()`, or `locator()` for selectors — avoid fragile text selectors.
+- Keep timeouts short (10s test, 5s action) to fail fast.
+- One test file per story verification: `project/test/verify-<story-id>.spec.ts`.
+- Always use `--reporter=list` to avoid the HTML report server blocking.
 
 ## Relationship with Design Skills
 

@@ -125,11 +125,11 @@ Only update AGENTS.md if you have **genuinely reusable knowledge** that would he
 - Keep changes focused and minimal
 - Follow existing code patterns
 
-## Browser Testing (Required for UI Stories)
+## UI Verification (Required for UI Stories)
 
-For any story with "Verify in browser using chrome-devtools MCP" in acceptance criteria:
+For any story with UI verification in its acceptance criteria:
 
-**Delegate FE verification to the `fe-engineer` subagent using `use_subagent`.**
+**Delegate verification to the `fe-engineer` subagent using `use_subagent`.**
 
 1. **Before delegating**, ensure the dev server is running:
    ```bash
@@ -139,13 +139,13 @@ For any story with "Verify in browser using chrome-devtools MCP" in acceptance c
 
 2. **Invoke the fe-engineer subagent** with `use_subagent` → `InvokeSubagents`:
    - `agent_name`: `"fe-engineer"`
-   - `query`: Describe what to verify — which page to navigate to, which elements to check, which interactions to perform, and what the expected outcome is. **Always start the query with: "The dev server is already running. Do NOT start or manage any servers. Only use chrome-devtools tools for verification."**
-   - `relevant_context`: Include the story's acceptance criteria and the dev server URL (e.g., `http://localhost:5173`).
+   - `query`: Describe what to verify — the dev server URL, which elements to check, which interactions to test, and expected outcomes. **Always start with: "The dev server is already running at [URL]. Do NOT start or manage any servers. Write a Playwright test to verify the following:"**
+   - `relevant_context`: Include the story's acceptance criteria.
 
 3. **Based on the subagent's response:**
-   - If verification passed → mark `passes: true`
-   - If verification failed → fix the code, then delegate verification again
-   - Only mark `passes: true` when the fe-engineer confirms success
+   - If Playwright tests passed → mark `passes: true`
+   - If tests failed → fix the code, then delegate verification again
+   - Only mark `passes: true` when the fe-engineer confirms all tests pass
 
 4. **Clean up:** Kill the dev server when done:
    ```bash
