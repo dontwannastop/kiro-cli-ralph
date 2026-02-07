@@ -1,7 +1,7 @@
 {
-  "name": "ralph",
-  "description": "Ralph autonomous coding agent with full permissions",
-  "prompt": "file://./ralph-prompt.md",
+  "name": "fe-engineer",
+  "description": "Senior Front-End Engineer for UI implementation and browser verification",
+  "prompt": "file://./fe-prompt.md",
   "tools": ["@builtin", "@chrome-devtools"],
   "allowedTools": ["fs_read", "fs_write", "execute_bash", "code", "grep", "glob", "@chrome-devtools/*"],
   "toolsSettings": {
@@ -13,7 +13,7 @@
     },
     "execute_bash": {
       "autoAllowReadonly": true,
-      "allowedCommands": ["npm .*", "yarn .*", "pnpm .*", "cargo .*", "make .*", "jq .*", "open .*", "cat .*", "ls .*"],
+      "allowedCommands": ["npm .*", "yarn .*", "pnpm .*", "npx .*", "cat .*", "ls .*"],
       "deniedCommands": ["git .*"]
     }
   }

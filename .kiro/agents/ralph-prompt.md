@@ -47,9 +47,10 @@ You are running non-interactively. Commands that prompt for input will hang fore
 
 1. Read the PRD at `project/prd.json`
 2. Read the progress log at `project/progress.txt` (check Codebase Patterns section first)
-3. Pick the **highest priority** user story where `passes: false`
-4. Implement that single user story
-5. Run quality checks (e.g., typecheck, lint, test - use whatever your project requires)
+3. If `project/design/chosen-design.html` exists, read it — this is the chosen visual design direction. Match its typography, colors, layout, and overall aesthetic when implementing UI stories.
+4. Pick the **highest priority** user story where `passes: false`
+5. Implement that single user story
+6. Run quality checks (e.g., typecheck, lint, test - use whatever your project requires)
 6. **Update project/README.md** if your changes affect how to run, build, or use the project
 7. Update AGENTS.md files if you discover reusable patterns (see below)
 8. Update the PRD to set `passes: true` for the completed story in `project/prd.json`
@@ -128,27 +129,30 @@ Only update AGENTS.md if you have **genuinely reusable knowledge** that would he
 
 For any story with "Verify in browser using chrome-devtools MCP" in acceptance criteria:
 
-1. **Start the appropriate dev server** (if not already running):
-   - Vite projects: `npm run dev` (runs on port 5173 by default)
-   - Vanilla JS/TS with no bundler: `npx serve .` or `npx http-server`
-   - Check package.json scripts for the correct command
-   - Run in background: append `&` or use `nohup`
+**Delegate FE verification to the `fe-engineer` subagent using `use_subagent`.**
 
-2. **Navigate to the page** using chrome-devtools MCP:
-   - Use `navigate_page` to go to the dev server URL
-   - Use `take_snapshot` to get the page structure
-   - Use `take_screenshot` to capture visual state
+1. **Before delegating**, ensure the dev server is running:
+   ```bash
+   cd [project-dir] && npm run dev &
+   sleep 5
+   ```
 
-3. **Verify functionality**:
-   - Use `click`, `fill`, etc. to interact with UI elements
-   - Take snapshots/screenshots after interactions
-   - Confirm the UI behaves as expected per acceptance criteria
+2. **Invoke the fe-engineer subagent** with `use_subagent` → `InvokeSubagents`:
+   - `agent_name`: `"fe-engineer"`
+   - `query`: Describe what to verify — which page to navigate to, which elements to check, which interactions to perform, and what the expected outcome is. **Always start the query with: "The dev server is already running. Do NOT start or manage any servers. Only use chrome-devtools tools for verification."**
+   - `relevant_context`: Include the story's acceptance criteria and the dev server URL (e.g., `http://localhost:5173`).
 
-4. **Document results** in progress.txt:
-   - Note what was verified
-   - Include any issues found and how they were fixed
+3. **Based on the subagent's response:**
+   - If verification passed → mark `passes: true`
+   - If verification failed → fix the code, then delegate verification again
+   - Only mark `passes: true` when the fe-engineer confirms success
 
-**Do NOT mark a UI story as `passes: true` without browser verification.**
+4. **Clean up:** Kill the dev server when done:
+   ```bash
+   pkill -f "npm run dev" || true
+   ```
+
+**Do NOT mark a UI story as `passes: true` without successful fe-engineer verification.**
 
 ## Stop Condition
 

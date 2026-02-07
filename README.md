@@ -26,10 +26,11 @@ docker compose build
 ./run-kiro.sh .. chat
 > @prd
 > Feature or product would you like to build
+> @design
 > @ralph Convert project/tasks/prd-*.md to prd.json
 
 # Run Ralph (10 = max iterations)
-./run-kiro.sh .. ralph 10 --model=claude-opus-4.5
+./run-kiro.sh .. ralph 10 --model=claude-opus-4.6
 ```
 
 ### Local
@@ -39,6 +40,7 @@ docker compose build
 ```bash
 kiro-cli chat
 > @prd
+> @design
 > @ralph Convert project/tasks/prd-*.md to prd.json
 
 ./ralph.sh 10
@@ -91,13 +93,19 @@ Each iteration spawns a **fresh Kiro CLI instance** with clean context. The only
 ```
 Kiro asks what you want to build, then asks clarifying questions. Saves to `project/tasks/prd-*.md`.
 
-**2. Convert to prd.json**
+**2. Generate Design Directions**
+```
+@design
+```
+Reads the PRD and generates 5 distinct visual designs as standalone HTML files in `project/design/`. Open them in a browser to compare.
+
+**3. Convert to prd.json (with design selection)**
 ```
 @ralph Convert project/tasks/prd-*.md to prd.json
 ```
-Creates structured user stories with acceptance criteria.
+If designs exist, asks which design (1-5) to use. Creates structured user stories with acceptance criteria referencing the chosen design.
 
-**3. Run Ralph**
+**4. Run Ralph**
 ```bash
 ./ralph.sh 10  # or ./run-kiro.sh .. ralph 10
 ```
@@ -155,6 +163,7 @@ UI stories include "Verify in browser using chrome-devtools MCP" in acceptance c
 | `ralph.sh` | The bash loop that spawns fresh Kiro instances |
 | `.kiro/agents/prompt.md` | Instructions for each iteration |
 | `.kiro/prompts/prd.md` | PRD generator skill (`@prd`) |
+| `.kiro/prompts/design.md` | Design direction generator (`@design`) |
 | `.kiro/prompts/ralph.md` | PRD-to-JSON converter (`@ralph`) |
 | `project/prd.json` | User stories with `passes` status |
 | `project/progress.txt` | Append-only learnings log |

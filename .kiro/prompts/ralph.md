@@ -8,6 +8,18 @@ Converts existing PRDs to the prd.json format that Ralph uses for autonomous exe
 
 Take a PRD (markdown file or text) and convert it to `project/prd.json`.
 
+### Design Selection
+
+Before converting, check if `project/design/` exists with design HTML files. If it does:
+
+1. Read `project/design/README.md` to list available design directions
+2. Ask the user which design to use (1-5)
+3. Once chosen, copy the selected design file to `project/design/chosen-design.html`
+4. Add a note to the prd.json `description` field indicating the chosen design (e.g., "Design 3 — Brutalist Industrial")
+5. For UI stories, add this acceptance criterion: `"Follow the chosen design direction in project/design/chosen-design.html"`
+
+If `project/design/` does not exist, skip this step and convert normally.
+
 After saving, tell the user:
 ```
 Ready to run Ralph:
