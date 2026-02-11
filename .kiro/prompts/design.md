@@ -79,12 +79,18 @@ project/design/
 
 ---
 
+## Index Page
+
+After generating all 5 designs, also create `project/design/index.html` — a single page with a tab bar that loads each design in an iframe. This lets the user browse all designs without opening each file separately. Include left/right arrow key navigation.
+
+---
+
 ## After Generating
 
 Tell the user:
 ```
 5 design directions saved to project/design/.
-Open each HTML file in a browser to compare, then run:
+Open project/design/index.html in a browser to compare all designs, then run:
   @ralph Convert project/tasks/prd-*.md to prd.json
 and specify which design number to use (1-5).
 ```
